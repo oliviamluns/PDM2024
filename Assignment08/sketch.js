@@ -3,7 +3,7 @@ let player = new Tone.Player('assets/paintapp.mp3').toDestination();
 player.loop = true;
 player.playbackRate = 1;
 let noise = new Tone.Noise("brown"); 
-let filter = new Tone.Filter (1000, "lowpass"); 
+let filter = new Tone.Filter (100, "lowpass"); 
 noise.connect(filter);
 filter.toDestination();
 
@@ -78,14 +78,13 @@ function draw() {
   strokeWeight(10);
   if (mouseIsPressed === true) {
     line (mouseX, mouseY, pmouseX, pmouseY);
+    player.playbackRate +=.001;
   } 
 }
 
 function mousePressed () {
- 
   noise.start();
-  filter.frequency.rampTo(3000, 3)  
-  player.playbackRate +=.001;
+  filter.frequency.rampTo(1500, 3);  
 
   if (cube.contains(mouseX,mouseY)) {
     selectedColor = cube.fill;
@@ -133,7 +132,7 @@ function mousePressed () {
 
 function mouseReleased(){
   noise.stop();
-  filter.frequency.value = 1000; 
+  filter.frequency.value = 100; 
 }
 
 class Cube {
