@@ -7,14 +7,6 @@ let filter = new Tone.Filter (1000, "lowpass");
 noise.connect(filter);
 filter.toDestination();
 
-function keyPressed (){
-  if (key === 'q') {noise.start();
-  filter.frequency.rampTo(3000, 1) 
-  } else if (key === 'w') { noise.stop();
-    filter.frequency.value = 1000; 
-  }
-}
-
 let soundFX = new Tone.Players({
   color: "assets/color.mp3",
   clear: "assets/clear.mp3",
@@ -86,15 +78,15 @@ function draw() {
   strokeWeight(10);
   if (mouseIsPressed === true) {
     line (mouseX, mouseY, pmouseX, pmouseY);
-    noise.start();
-    filter.frequency.rampTo(3000, 3);
-    player.playbackRate +=.001; 
-  } else if (mouseIsPressed === false) { noise.stop();
-    filter.frequency.value = 100; 
-  }
+  } 
 }
 
 function mousePressed () {
+ 
+  noise.start();
+  filter.frequency.rampTo(3000, 3)  
+  player.playbackRate +=.001;
+
   if (cube.contains(mouseX,mouseY)) {
     selectedColor = cube.fill;
     soundFX.player("color").start();
@@ -137,6 +129,11 @@ function mousePressed () {
     soundFX.player("save").start();
   }
   console.log("selected color is " + selectedColor);
+}
+
+function mouseReleased(){
+  noise.stop();
+  filter.frequency.value = 1000; 
 }
 
 class Cube {
